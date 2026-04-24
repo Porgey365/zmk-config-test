@@ -60,23 +60,54 @@ echo ""
 echo "Waiting for XIAO-SENSE device (10s timeout)..."
 echo "Put the $DEVICE_NAME in bootloader mode (double-tap reset button)"
 
-# Wait for device to appear (10 second timeout)
+# Wait for device block to appear, then auto-mount if needed
 MOUNT_POINT=""
+DEVICE_NODE=""
 TIMEOUT=10
 ELAPSED=0
 
 while [ $ELAPSED -lt $TIMEOUT ]; do
-    for path in /media/$USER/XIAO-SENSE /media/XIAO-SENSE /run/media/$USER/XIAO-SENSE; do
+    # First check if already mounted at a known path
+    for path in "/media/$USER/XIAO-SENSE" "/media/XIAO-SENSE" "/run/media/$USER/XIAO-SENSE"; do
         if [ -d "$path" ]; then
             MOUNT_POINT="$path"
             break 2
         fi
     done
+
+    # Otherwise, locate the block device by label
+    DEVICE_NODE=$(lsblk -rno NAME,LABEL | awk '$2=="XIAO-SENSE"{print "/dev/"$1; exit}')
+    if [ -n "$DEVICE_NODE" ]; then
+        break
+    fi
+
     sleep 1
     ELAPSED=$((ELAPSED + 1))
     echo -n "."
 done
 echo ""
+
+if [ -z "$MOUNT_POINT" ] && [ -n "$DEVICE_NODE" ]; then
+    # Already mounted by another process?
+    MOUNT_POINT=$(findmnt -rno TARGET "$DEVICE_NODE" || true)
+
+    if [ -z "$MOUNT_POINT" ]; then
+        echo "Mounting $DEVICE_NODE..."
+        if command -v udisksctl >/dev/null 2>&1; then
+            MOUNT_OUTPUT=$(udisksctl mount -b "$DEVICE_NODE" 2>&1)
+            echo "$MOUNT_OUTPUT"
+            # udisksctl prints "Mounted /dev/sdX1 at /path" (note: may end with a period on some versions)
+            MOUNT_POINT=$(printf '%s' "$MOUNT_OUTPUT" | sed -n 's/.* at \(.*\)\.*$/\1/p' | sed 's/\.$//')
+            # Fall back to querying the kernel if parsing failed
+            [ -z "$MOUNT_POINT" ] && MOUNT_POINT=$(findmnt -rno TARGET "$DEVICE_NODE" || true)
+        else
+            MOUNT_POINT="/tmp/xiao-sense-$$"
+            mkdir -p "$MOUNT_POINT"
+            sudo mount "$DEVICE_NODE" "$MOUNT_POINT"
+            NEEDS_UMOUNT=1
+        fi
+    fi
+fi
 
 if [ -z "$MOUNT_POINT" ]; then
     echo "Error: XIAO-SENSE device not found"
