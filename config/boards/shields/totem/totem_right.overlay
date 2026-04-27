@@ -18,5 +18,5 @@
         , <&xiao_d 5 GPIO_ACTIVE_HIGH>
         , <&xiao_d 4 GPIO_ACTIVE_HIGH>
         ;
-    wakeup-source;
+    // wakeup-source;
 };
