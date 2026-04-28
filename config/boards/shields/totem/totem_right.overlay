@@ -31,11 +31,3 @@
     status = "disabled";
 };
 
-&gpio0 {
-    d2-hog {
-        gpio-hog;
-        gpios = <28 0>;
-        output-low;
-    };
-};
-
