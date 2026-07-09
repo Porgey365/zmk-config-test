@@ -14,16 +14,6 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
 
-// The dongle's ambient light sensor is a clone APDS9960 (reports chip id 0x9f),
-// which the stock avago,apds9960 driver rejects. Retarget its node to the
-// vendored clone-tolerant driver's compatible. Dongle-only; the halves have no
-// such node.
-#ifdef CONFIG_SHIELD_TOTEM_DONGLE
-&apds9960 {
-    compatible = "zmk,apds9960";
-};
-#endif
-
 #define BASE        0
 #define NAV         1
 #define MOUSE       2
