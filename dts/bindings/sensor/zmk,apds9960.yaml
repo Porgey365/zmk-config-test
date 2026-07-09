@@ -1,0 +1,20 @@
+# Clone-tolerant APDS9960 binding. Same wiring as avago,apds9960; a separate
+# compatible lets the vendored driver bind the node without colliding with the
+# in-tree avago,apds9960 driver (which Prospector force-enables).
+# SPDX-License-Identifier: Apache-2.0
+
+description: |
+  Clone-tolerant APDS9960 ambient light / proximity / gesture sensor.
+  Identical to avago,apds9960 but also accepts clone chips that report
+  device id 0x9f.
+
+compatible: "zmk,apds9960"
+
+include: [sensor-device.yaml, i2c-device.yaml]
+
+properties:
+  int-gpios:
+    type: phandle-array
+    description: |
+      Interrupt output pin. Only used when a trigger mode is enabled;
+      the driver defaults to polled mode and does not require it.

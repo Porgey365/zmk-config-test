@@ -6,14 +6,15 @@
 config APDS9960C
 	bool "APDS9960 ambient light / proximity sensor (clone-tolerant)"
 	default y
-	depends on DT_HAS_AVAGO_APDS9960_ENABLED
+	depends on DT_HAS_ZMK_APDS9960_ENABLED
 	select I2C
 	select SENSOR
 	help
 	  Patched APDS9960 driver that also accepts clone chips reporting
 	  device id 0x9f (the stock CONFIG_APDS9960 driver only accepts 0xab
-	  and 0x9c). Binds the standard "avago,apds9960" devicetree nodes, so
-	  set CONFIG_APDS9960=n to disable the in-tree driver when using this.
+	  and 0x9c). Binds "zmk,apds9960" nodes. Retarget an avago,apds9960
+	  node to this compatible via an overlay to use this driver; the
+	  in-tree avago,apds9960 driver then matches no nodes and stays inert.
 
 if APDS9960C
 

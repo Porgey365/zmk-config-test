@@ -5,7 +5,7 @@
  *SPDX-License-Identifier: Apache-2.0
  */
 
-#define DT_DRV_COMPAT avago_apds9960
+#define DT_DRV_COMPAT zmk_apds9960
 
 /* @file
  * @brief driver for APDS9960 ALS/RGB/gesture/proximity sensor
