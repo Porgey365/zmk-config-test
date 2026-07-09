@@ -7,17 +7,6 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 #include <physical_layouts.dtsi>
 
-/*
- * The Prospector adapter's ambient light sensor is a clone APDS9960 that
- * reports chip id 0x9f, which the stock avago,apds9960 driver rejects.
- * Retarget the node to the vendored clone-tolerant driver's compatible.
- * Requires this shield's overlay to be applied after prospector_adapter (see
- * the shield order in build.yaml).
- */
-&apds9960 {
-    compatible = "zmk,apds9960";
-};
-
 / {
     chosen {
         zmk,kscan = &mock_kscan;
