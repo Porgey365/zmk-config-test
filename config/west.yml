@@ -10,6 +10,8 @@ manifest:
       url-base: https://github.com/efogdev
     - name: nuovotaka
       url-base: https://github.com/nuovotaka
+    - name: carrefinho                           
+      url-base: https://github.com/carrefinho 
   projects:
     - name: zmk
       remote: zmkfirmware
@@ -27,5 +29,8 @@ manifest:
     - name: zmk-pointing-acceleration-alpha
       remote: nuovotaka
       revision: main
+    - name: prospector-zmk-module                 # <--- and these
+      remote: carrefinho                          # <---
+      revision: feat/new-status-screens           # <---
   self:
     path: config
