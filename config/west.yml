@@ -4,12 +4,6 @@ manifest:
       url-base: https://github.com/zmkfirmware
     - name: caksoylar
       url-base: https://github.com/caksoylar
-    - name: badjeff
-      url-base: https://github.com/badjeff/
-    - name: efogdev
-      url-base: https://github.com/efogdev
-    - name: nuovotaka
-      url-base: https://github.com/nuovotaka
     - name: carrefinho                           
       url-base: https://github.com/carrefinho 
   projects:
@@ -19,15 +13,6 @@ manifest:
       import: app/west.yml
     - name: zmk-rgbled-widget
       remote: caksoylar
-      revision: main
-    - name: zmk-pmw3610-driver
-      remote: efogdev
-      revision: zephyr-4.1
-    - name: zmk-input-processor-report-rate-limit
-      remote: badjeff
-      revision: main
-    - name: zmk-pointing-acceleration-alpha
-      remote: nuovotaka
       revision: main
     - name: prospector-zmk-module                 # <--- and these
       remote: carrefinho                          # <---
