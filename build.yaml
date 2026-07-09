@@ -7,3 +7,5 @@ include:
     shield: totem_right rgbled_adapter
   - board: xiao_ble//zmk
     shield: settings_reset
+  - board: xiao_ble//zmk
+    shield: totem_dongle prospector_adapter
